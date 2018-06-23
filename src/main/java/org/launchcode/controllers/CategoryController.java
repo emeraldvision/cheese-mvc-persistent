@@ -44,6 +44,7 @@ public class CategoryController {
 
         Category sameCategory = categoryDao.findByName(category.getName());
         if (sameCategory != null) {
+            model.addAttribute("title", "Add Categories");
             model.addAttribute("duplicate", "That category already exists");
             return "category/add";
         }
