@@ -3,48 +3,28 @@ package org.launchcode.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Category {
-
-    /******
-     * Fields
-     ******/
-
-    @Id
-    @GeneratedValue
-    private int id;
+public class Menu {
 
     @NotNull
     @Size(min = 3, max = 15, message = "Must be between 3-15 characters")
     @Column(unique = true)
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "category_id")
-    private List<Cheese> cheeses = new ArrayList<>();
+    @Id
+    @GeneratedValue
+    private int id;
 
+    @ManyToMany
+    private List<Cheese> cheeses;
 
-    /******
-     * Constructors
-     ******/
-
-    public Category() {
+    public Menu() {
     }
 
-    public Category(String name) {
+    public Menu(String name) {
         this.name = name;
-    }
-
-
-    /******
-     * Getters and Setters
-     ******/
-
-    public int getId() {
-        return id;
     }
 
     public String getName() {
@@ -55,11 +35,19 @@ public class Category {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public List<Cheese> getCheeses() {
         return cheeses;
     }
 
-    public void setCheeses(List<Cheese> cheeses) {
-        this.cheeses = cheeses;
+    public void addItem(Cheese item) {
+        cheeses.add(item);
+    }
+
+    public boolean hasCheese() {
+        return this.getCheeses().size() > 0;
     }
 }
